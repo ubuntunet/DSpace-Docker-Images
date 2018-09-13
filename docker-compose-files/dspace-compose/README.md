@@ -5,14 +5,14 @@
 
 ## 1. Pre-requisites
 - [Setting Up Docker for DSpace](../../documentation/tutorialSetup.md)
-- Set the environment variable DSPACE_VER to the [DSpace image version](https://hub.docker.com/r/dspace/dspace/tags/) you would like to use.
+- NOT NEEDED, SEE BELOW! Set the environment variable DSPACE_VER to the [DSpace image version](https://hub.docker.com/r/dspace/dspace/tags/) you would like to use.
   - master, dspace-6_x, dspace-6.3, dspace-5.9, dspace-4.9
 
 ```
 export DSPACE_VER=dspace-6_x
 ```
 
-- Set the environment variable DPROJ to a shorthand version of the version of DSpace you are running (this needs to be distinct for each database schema version). Docker will name the network, images, and persistent volumes with this value.  This will allow you to host multiple DSpace configurations through Docker.
+- NOT NEEDED, SEE BELOW! Set the environment variable DPROJ to a shorthand version of the version of DSpace you are running (this needs to be distinct for each database schema version). Docker will name the network, images, and persistent volumes with this value.  This will allow you to host multiple DSpace configurations through Docker.
   - d7, d6, d5, d4
 
 ```
@@ -26,11 +26,20 @@ export DPROJ=d6
 # - "../../add-ons/mirage2/xmlui.xconf:/dspace/config/xmlui.xconf"
 ```
 
+- Build Docker image, see ../../dockerfiles/<institution_domain>
+
 ## 2. Using Docker Compose
 
 - cd to the **[dspace-compose](https://github.com/DSpace-Labs/DSpace-Docker-Images/tree/master/docker-compose-files/dspace-compose)** directory
 
-Run Docker compose
+- Set environment variables in .env
+
+- Load environment variables
+```
+set -o allexport; source .env; set +o allexport
+```
+
+- Run Docker compose
 
 ```
 docker-compose -p $DPROJ up -d

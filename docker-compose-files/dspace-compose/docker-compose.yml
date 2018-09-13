@@ -14,6 +14,8 @@ services:
 
   dspace:
     image: "dspace/dspace:${DSPACE_VER:-dspace-6_x}"
+    env_file: 
+      - .env
     environment:
       - DSPACE_INSTALL=/dspace
     ports:
@@ -22,7 +24,7 @@ services:
       - "assetstore:/dspace/assetstore"
       - "solr:/dspace/solr"
       # Uncomment the following to enable Mirage2 (DSpace 5x or 6x only)
-      # - "../../add-ons/mirage2/xmlui.xconf:/dspace/config/xmlui.xconf"
+      - "../../add-ons/mirage2/xmlui.xconf:/dspace/config/xmlui.xconf"
     networks:
       - dspacenet
     depends_on:
