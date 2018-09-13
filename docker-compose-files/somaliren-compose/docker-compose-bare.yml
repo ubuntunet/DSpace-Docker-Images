@@ -1,0 +1,44 @@
+version: "3.3"
+
+services:
+  dspacedb:
+    image: dspace/dspace-postgres-pgcrypto
+    environment:
+      - PGDATA=/pgdata
+    volumes:
+      - pgdata:/pgdata
+    networks:
+      - dspacenet
+    tty: true
+    stdin_open: true
+
+  so_edu_mu:
+    build:
+      ../../dockerfiles/so_edu_mu
+    image: so_edu_mu:0.1
+    environment:
+      - DSPACE_INSTALL=/dspace
+    ports:
+      - 8080:8080
+    volumes:
+      - "assetstore:/dspace/assetstore"
+      - "solr:/dspace/solr"
+      # Uncomment the following to enable Mirage2 (DSpace 5x or 6x only)
+      - "../../add-ons/mirage2/xmlui.xconf:/dspace/config/xmlui.xconf"
+    networks:
+      - dspacenet
+    depends_on:
+      - dspacedb
+    tty: true
+    stdin_open: true
+
+volumes:
+  nginx-conf:
+  nginx-vhost:
+  nginx-html:
+  pgdata:
+  assetstore:
+  solr:
+
+networks:
+  dspacenet:
