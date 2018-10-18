@@ -13,9 +13,9 @@ services:
     stdin_open: true
 
   so_edu_mu:
-    build:
-      ../../dockerfiles/so_edu_mu
-    image: so_edu_mu:0.1
+    #build:
+    #  ../../dockerfiles/so_edu_mu
+    image: so_edu_mu:0.2
     environment:
       - DSPACE_INSTALL=/dspace
     ports:
