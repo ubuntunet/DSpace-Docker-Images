@@ -7,18 +7,15 @@ services:
       - PGDATA=/pgdata
     volumes:
       - pgdata:/pgdata
-      # Set the following variable for ingest tools
-      # Set this varible to the folder mount_ingest_tools within this project
-      # - "${INGEST_TOOLS}:/ingest-tools"
-      - "../../add-ons/mount_ingest_tools:/ingest-tools"
-
     networks:
       - dspacenet
     tty: true
     stdin_open: true
 
-  dspace:
-    image: "dspace/dspace:${DSPACE_VER:-dspace-6_x-jdk8-test}"
+  so_edu_mu:
+    #build:
+    #  ../../dockerfiles/so_edu_mu
+    image: so_edu_mu:0.2
     environment:
       - DSPACE_INSTALL=/dspace
     ports:
@@ -26,10 +23,8 @@ services:
     volumes:
       - "assetstore:/dspace/assetstore"
       - "solr:/dspace/solr"
-      # Set the following variable for ingest tools
-      # Set this varible to the folder mount_ingest_tools within this project
-      # - "${INGEST_TOOLS}:/ingest-tools"
-      - "../../add-ons/mount_ingest_tools:/ingest-tools"
+      # Uncomment the following to enable Mirage2 (DSpace 5x or 6x only)
+      - "../../add-ons/mirage2/xmlui.xconf:/dspace/config/xmlui.xconf"
     networks:
       - dspacenet
     depends_on:
@@ -38,6 +33,9 @@ services:
     stdin_open: true
 
 volumes:
+  nginx-conf:
+  nginx-vhost:
+  nginx-html:
   pgdata:
   assetstore:
   solr:

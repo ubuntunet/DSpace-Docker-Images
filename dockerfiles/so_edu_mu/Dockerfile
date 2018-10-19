@@ -16,7 +16,7 @@ COPY build.properties /app/DSpace
 FROM maven as build
 WORKDIR /app
 COPY --from=clone /app/DSpace /app
-RUN mvn package
+RUN mvn package -Dmirage2.on=true
 
 
 FROM dspace/dspace-tomcat as ant_build

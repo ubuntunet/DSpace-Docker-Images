@@ -6,26 +6,18 @@
 ## 1. Pre-requisites
 - See [Setting Up Docker for DSpace](../../documentation/tutorialSetup.md)
 - Set the environment variable DSPACE_VER to the DSpace image version you would like to use.
-  - master, dspace-6_x, dspace-6.3, dspace-5.9, dspace-4.9
 
 ```
-export DSPACE_VER=dspace-6_x
+export DSPACE_VER=dspace-6_x-jdk8-test
 ```
 
 - Set the environment variable DPROJ to a shorthand version of the version of DSpace you are running (this needs to be distinct for each database schema version). Docker will name the network, images, and persistent volumes with this value.  This will allow you to host multiple DSpace configurations through Docker.
-  - d7, d6, d5, d4
+  - d7, d6, d5, d4[*](../../documentation/tutorial4x)
 
 ```
 export DPROJ=d6
 ```
 
-- Set the environment variable **AIP_DIR** to the directory containing your AIP files.
-  - [DSpace AIP Files - Archival Ingest Packages](https://wiki.duraspace.org/display/DSDOC6x/DSpace+AIP+Format)
-  - A sample set is located [here](https://github.com/DSpace-Labs/DSpace-codenvy/tree/master/TestData).
-
-```
-export AIP_DIR=...
-```
 
 - Set the environment variable **INGEST_TOOLS** to the **[mount_ingest_tools](https://github.com/DSpace-Labs/DSpace-Docker-Images/tree/master/add-ons/mount_ingest_tools)** folder within this project.
 
@@ -47,17 +39,28 @@ docker-compose -p $DPROJ up -d
 
 ### Use the tomcat bash terminal to configure the DSpace administrator
 
+A sample set is available here https://github.com/DSpace-Labs/AIP-Files.  
+
+You can specify a collection of AIP resources to download for ingest by setting the following variable.
+
+```
+export AIPZIP=https://github.com/DSpace-Labs/AIP-Files/raw/master/DogPhotosAIP.zip
+```
+
 #### Bash
 ```
 docker exec ${DPROJ}_dspace_1 chmod o+x /ingest-tools/createAdmin.sh
+docker exec ${DPROJ}_dspace_1 chmod o+x /ingest-tools/getAIP.sh
 docker exec ${DPROJ}_dspace_1 chmod o+x /ingest-tools/ingestAIP.sh
 docker exec ${DPROJ}_dspace_1 /ingest-tools/createAdmin.sh
+docker exec ${DPROJ}_dspace_1 /ingest-tools/getAIP.sh
 docker exec ${DPROJ}_dspace_1 /ingest-tools/ingestAIP.sh
 ```
 
 #### Git-Bash Windows
 ```
 docker exec ${DPROJ}_dspace_1 //ingest-tools/createAdmin.sh
+docker exec ${DPROJ}_dspace_1 //ingest-tools/getAIP.sh
 docker exec ${DPROJ}_dspace_1 //ingest-tools/ingestAIP.sh
 ```
 
