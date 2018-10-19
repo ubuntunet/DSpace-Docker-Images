@@ -15,7 +15,7 @@ services:
   so_edu_mu:
     build:
       ../../dockerfiles/so_edu_mu
-    image: so_edu_mu:0.1
+    image: so_edu_mu:0.2
     environment:
       - DSPACE_INSTALL=/dspace
     ports:
@@ -33,15 +33,17 @@ services:
     stdin_open: true
     environment:
       - VIRTUAL_HOST=repository.mu.edu.so
-      - VIRTUAL_PORT=5601
+      - VIRTUAL_PORT=8080
       - LETSENCRYPT_EMAIL=devops@ubuntunet.net
       - LETSENCRYPT_HOST=repository.mu.edu.so
 
   nginx-proxy:
     image: jwilder/nginx-proxy:0.7.0
     ports:
-      - "129.232.230.131:80:80"
-      - "129.232.230.131:443:443"
+      - "80:80"
+      - "443:443"
+    networks:
+      - dspacenet
     volumes:
       - ./certs:/etc/nginx/certs:ro
       - ./htpasswd:/etc/nginx/htpasswd
@@ -61,6 +63,8 @@ services:
       - nginx-vhost:/etc/nginx/vhost.d
       - nginx-html:/usr/share/nginx/html
       - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - dspacenet
     restart: unless-stopped
 
 volumes:
