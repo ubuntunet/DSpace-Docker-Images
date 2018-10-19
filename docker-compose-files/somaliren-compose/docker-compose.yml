@@ -15,7 +15,7 @@ services:
   so_edu_mu:
     build:
       ../../dockerfiles/so_edu_mu
-    image: so_edu_mu:0.1
+    image: so_edu_mu:0.2
     environment:
       - DSPACE_INSTALL=/dspace
     ports:
@@ -42,6 +42,8 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    networks:
+      - dspacenet
     volumes:
       - ./certs:/etc/nginx/certs:ro
       - ./htpasswd:/etc/nginx/htpasswd
@@ -61,6 +63,8 @@ services:
       - nginx-vhost:/etc/nginx/vhost.d
       - nginx-html:/usr/share/nginx/html
       - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - dspacenet
     restart: unless-stopped
 
 volumes:
