@@ -25,11 +25,20 @@ export DPROJ=d6
 # - "../../add-ons/mirage2/xmlui.xconf:/dspace/config/xmlui.xconf"
 ```
 
+- Build Docker image, see ../../dockerfiles/<institution_domain>
+
 ## 2. Using Docker Compose
 
 - cd to the **[dspace-compose](https://github.com/DSpace-Labs/DSpace-Docker-Images/tree/master/docker-compose-files/dspace-compose)** directory
 
-Run Docker compose
+- Set environment variables in .env
+
+- Load environment variables
+```
+set -o allexport; source .env; set +o allexport
+```
+
+- Run Docker compose
 
 ```
 docker-compose -p $DPROJ up -d
