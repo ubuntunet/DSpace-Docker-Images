@@ -25,11 +25,20 @@ export DPROJ=d6
 # - "../../add-ons/mirage2/xmlui.xconf:/dspace/config/xmlui.xconf"
 ```
 
+- Build Docker image, see ../../dockerfiles/<institution_domain>
+
 ## 2. Using Docker Compose
 
 - cd to the **[dspace-compose](https://github.com/DSpace-Labs/DSpace-Docker-Images/tree/master/docker-compose-files/dspace-compose)** directory
 
-Run Docker compose
+- Set environment variables in .env
+
+- Load environment variables
+```
+set -o allexport; source .env; set +o allexport
+```
+
+- Run Docker compose
 
 ```
 docker-compose -p $DPROJ up -d
@@ -60,24 +69,24 @@ local               d6_solr
 
 #### Bash
 ```
-docker exec -it dspace /dspace/bin/dspace version
+docker exec -it ${DPROJ}_dspace_1 /dspace/bin/dspace version
 ```
 
 #### Git-Bash Windows
 ```
-winpty docker exec -it dspace //dspace/bin/dspace version
+winpty docker exec -it ${DPROJ}_dspace_1 //dspace/bin/dspace version
 ```
 
 ### 3b. Verify Database Schema
 
 #### Bash
 ```
-docker exec -it dspacedb psql -U dspace -c "select * from schema_version order by installed_rank desc limit 1"
+docker exec -it ${DPROJ}_dspacedb_1 psql -U dspace -c "select * from schema_version order by installed_rank desc limit 1"
 ```
 
 #### Git-Bash Windows
 ```
-winpty docker exec -it dspacedb psql -U dspace -c "select * from schema_version order by installed_rank desc limit 1"
+winpty docker exec -it ${DPROJ}_dspacedb_1 psql -U dspace -c "select * from schema_version order by installed_rank desc limit 1"
 ```
 
 ## 4. Accessing the Command Line
@@ -86,12 +95,12 @@ winpty docker exec -it dspacedb psql -U dspace -c "select * from schema_version 
 
 #### Bash
 ```
-docker exec -it --detach-keys "ctrl-p" dspace /bin/bash
+docker exec -it --detach-keys "ctrl-p" ${DPROJ}_dspace_1 /bin/bash
 ```
 
 #### Git-Bash Windows
 ```
-winpty docker exec -it --detach-keys "ctrl-p" dspace //bin/bash
+winpty docker exec -it --detach-keys "ctrl-p" ${DPROJ}_dspace_1 //bin/bash
 ```
 
 Bash Command
@@ -103,12 +112,12 @@ Bash Command
 
 #### Bash
 ```
-docker exec -it --detach-keys "ctrl-p" dspacedb psql -U dspace
+docker exec -it --detach-keys "ctrl-p" ${DPROJ}_dspacedb_1 psql -U dspace
 ```
 
 #### Git-Bash Windows
 ```
-winpty docker exec -it --detach-keys "ctrl-p" dspacedb psql -U dspace
+winpty docker exec -it --detach-keys "ctrl-p" ${DPROJ}_dspacedb_1 psql -U dspace
 ```
 
 ## 5. Open DSpace in a Browser
