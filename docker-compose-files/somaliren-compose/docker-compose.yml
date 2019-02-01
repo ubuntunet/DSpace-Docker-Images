@@ -13,9 +13,11 @@ services:
     stdin_open: true
 
   so_edu_mu:
-    build:
-      ../../dockerfiles/so_edu_mu
-    image: so_edu_mu:0.2
+    # Doesn't work because it need the database to run during build process
+    #build:
+    #  ../../dockerfiles/so_edu_mu
+    #image: ubuntunet/dspace:so-edu-mu0.4
+    image: adcfee83355a
     environment:
       - DSPACE_INSTALL=/dspace
     ports:
@@ -32,10 +34,12 @@ services:
     tty: true
     stdin_open: true
     environment:
-      - VIRTUAL_HOST=repository.mu.edu.so
+      #- VIRTUAL_HOST=repository.mu.edu.so
+      - VIRTUAL_HOST=sorepo.ubuntunet.net
       - VIRTUAL_PORT=8080
       - LETSENCRYPT_EMAIL=devops@ubuntunet.net
-      - LETSENCRYPT_HOST=repository.mu.edu.so
+      #- LETSENCRYPT_HOST=repository.mu.edu.so
+      - LETSENCRYPT_HOST=sorepo.ubuntunet.net
 
   nginx-proxy:
     image: jwilder/nginx-proxy:0.7.0
